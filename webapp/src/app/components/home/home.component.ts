@@ -123,8 +123,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   async onSubmit(form: FormGroup) { 
 
     this.errorService.werror.next('')
-    const url = `wss://data.tunneling.iot.${form.value.region.region}.amazonaws.com/tunnel?local-proxy-mode=source`
-    const cookie = await this.http.post(`${API_SET_COOKIE}`, {token: form.value.token, region: form.value.region.region}, {withCredentials: true, }).toPromise()
+    let access_token:string = form.value.token
+    let urlencoded_token = encodeURI(access_token)
+    const url = `wss://data.tunneling.iot.${form.value.region.region}.amazonaws.com/tunnel?local-proxy-mode=source&access-token=${urlencoded_token}`
+    //const cookie = await this.http.post(`${API_SET_COOKIE}`, {token: form.value.token, region: form.value.region.region}, {withCredentials: true, }).toPromise()
 
  
     this.startSSH(url)
